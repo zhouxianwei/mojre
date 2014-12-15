@@ -13,25 +13,30 @@
         /*jslint white: true */
         function analyze(str) {
             var reg = /\/{1,2}/g,
-                r, i,
+                r, i, selector = "",
+                m = "",
                 s = [];
-
             do {
+                //进行匹配
                 r = reg.exec(str);
-
                 if (r !== null) {
                     if (i !== undefined) {
-                        console.log(str.substring(i, r.index));
+                        selector = str.substring(i, r.index);
                     }
                     i = r.index + r[0].length;
                 } else {
-                    console.log(str.substring(i, str.length));
+                    selector = str.substring(i, str.length);
                 }
-
+                if (m !== "") {
+                    
+                }
+                m = r;
             } while (r !== null);
 
         }
-
+        
+        
+        
         return {
             getItem: function () {
                 analyze(this);
@@ -70,7 +75,7 @@
 
 }());
 
-"//aa//b//c".getItem();
+"//from//button/a".getItem();
 
 /*
     function a() {
