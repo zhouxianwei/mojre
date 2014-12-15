@@ -12,10 +12,26 @@
     var $ = function () {
         /*jslint white: true */
         function analyze(str) {
-            var reg = /\/{1,2}/g;
-            
-            
+            var reg = /\/{1,2}/g,
+                r, i,
+                s = [];
+
+            do {
+                r = reg.exec(str);
+
+                if (r !== null) {
+                    if (i !== undefined) {
+                        console.log(str.substring(i, r.index));
+                    }
+                    i = r.index + r[0].length;
+                } else {
+                    console.log(str.substring(i, str.length));
+                }
+
+            } while (r !== null);
+
         }
+
         return {
             getItem: function () {
                 analyze(this);
@@ -54,7 +70,7 @@
 
 }());
 
-"aa".getItem();
+"//aa//b//c".getItem();
 
 /*
     function a() {
