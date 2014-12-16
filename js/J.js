@@ -10,33 +10,63 @@
 
     */
     var $ = function () {
+        
+        //NO.4 节点过滤器
+        
+        
+        //NO.3 分析选择器
+        function singleAnalyze(s, d) {
+            var idR = /\#(\S{1,})/,
+                clsR = /\.(\S{1,})/,
+                n;
+            if (idR.test(s)) {
+                
+            } else if (clsR.test(s)) {
+                
+            } else {
+
+            }
+            return "a";
+        }
+        
         /*jslint white: true */
+        //NO.2 分解
+        //分解单个选择器(如果有空格 //bb cc//)
+        function resolve(m, s, d) {
+            s = s.split(" ");
+            var len = s.length,
+                i;
+            /*jslint plusplus: true */
+            for (i = 0; i < len; i++) {
+                singleAnalyze(s[i], d);
+            }
+            return "a";
+        }
+
+        /*jslint white: true */
+        //NO.1 解析
+        //把选择器分解成单个选择器(//aa//bb cc/dd)
         function analyze(str) {
             var reg = /\/{1,2}/g,
-                r, i, selector = "",
-                m = "",
-                s = [];
+                r, i, s, m, d;
             do {
                 //进行匹配
                 r = reg.exec(str);
                 if (r !== null) {
                     if (i !== undefined) {
-                        selector = str.substring(i, r.index);
+                        s = str.substring(i, r.index);
                     }
                     i = r.index + r[0].length;
                 } else {
-                    selector = str.substring(i, str.length);
+                    s = str.substring(i, str.length);
                 }
-                if (m !== "") {
-                    
+                if (m !== "" && m !== undefined) {
+                    d = resolve(m, s, d || document);
                 }
                 m = r;
             } while (r !== null);
-
         }
-        
-        
-        
+
         return {
             getItem: function () {
                 analyze(this);
@@ -74,8 +104,6 @@
     "".extend(String.prototype, $());
 
 }());
-
-"//from//button/a".getItem();
 
 /*
     function a() {
