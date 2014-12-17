@@ -10,37 +10,103 @@
 
     */
     var $ = function () {
-        
+
         //NO.4 节点过滤器
-        
-        
+        function getEl(d) {
+            var len = d.length;
+
+            return {
+                getID: function (seletor) {
+                    var i, Elist, Elarr = [];
+                    /*jslint plusplus: true */
+                    for (i = 0; i < len; i++) {
+                        Elarr = Elarr.concat(this.ID(d[i].getElementsByTagName("*"), seletor));
+                    }
+                    return Elarr;
+                },
+                getCLS: function (seletor) {
+                    var i, Elist, Elarr = [];
+                    /*jslint plusplus: true */
+                    for (i = 0; i < len; i++) {
+                        Elarr = Elarr.concat(this.CLS(d[i].getElementsByTagName("*"), seletor));
+                    }
+                    return Elarr;
+                },
+                getTAG: function (seletor) {
+                    var i, Elist, Elarr = [];
+                    /*jslint plusplus: true */
+                    for (i = 0; i < len; i++) {
+                        Elarr = Elarr.concat(this.TAG(d[i].getElementsByTagName("*"), seletor));
+                    }
+                    return Elarr;
+                },
+                ID: function (d, s) {
+                    var len = d.length,
+                        i = 0,
+                        re = [];
+                    /*jslint plusplus: true */
+                    for (i; i < len; i++) {
+                        if (d[i].getAttribute("id") === s) {
+                            re.push(d[i]);
+                        }
+                    }
+                    return re;
+                },
+                CLS: function (d, s) {
+                    var len = d.length,
+                        i = 0,
+                        re = [],
+                        pattern = new RegExp("(^|\\s)" + s + "(\\s|$)");
+                    /*jslint plusplus: true */
+                    for (i; i < len; i++) {
+                        if (pattern.test(d[i].getAttribute("class"))) {
+                            re.push(d[i]);
+                        }
+                    }
+                    return re;
+                },
+                TAG: function (d, s) {
+                    var len = d.length,
+                        i = 0,
+                        re = [];
+                    /*jslint plusplus: true */
+                    for (i; i < len; i++) {
+                        if (d[i].tagName.toLowerCase() === s) {
+                            re.push(d[i]);
+                        }
+                    }
+                    return re;
+                }
+            };
+        }
+
         //NO.3 分析选择器
         function singleAnalyze(s, d) {
             var idR = /\#(\S{1,})/,
                 clsR = /\.(\S{1,})/,
-                n;
+                n = [];
             if (idR.test(s)) {
-                
+                n = getEl(d).getID(s.match(idR)[1]);
             } else if (clsR.test(s)) {
-                
+                n = getEl(d).getCLS(s.match(clsR)[1]);
             } else {
-
+                n = getEl(d).getTAG(s);
             }
-            return "a";
+            return n;
         }
-        
+
         /*jslint white: true */
         //NO.2 分解
         //分解单个选择器(如果有空格 //bb cc//)
         function resolve(m, s, d) {
             s = s.split(" ");
             var len = s.length,
-                i;
+                i, n = [];
             /*jslint plusplus: true */
             for (i = 0; i < len; i++) {
-                singleAnalyze(s[i], d);
+                n = n.concat(singleAnalyze(s[i], d));
             }
-            return "a";
+            return n;
         }
 
         /*jslint white: true */
@@ -61,15 +127,17 @@
                     s = str.substring(i, str.length);
                 }
                 if (m !== "" && m !== undefined) {
-                    d = resolve(m, s, d || document);
+                    d = resolve(m, s, d || [document]);
                 }
                 m = r;
             } while (r !== null);
+            console.log(d);
+            return d;
         }
 
         return {
             getItem: function () {
-                analyze(this);
+                return analyze(this);
             }
         };
     };
