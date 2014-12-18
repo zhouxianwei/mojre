@@ -11,6 +11,37 @@
     */
     var $ = function () {
 
+        //数组去重函数
+        function unique(arr) {
+            var r = arr.indexOf ? [] : [arr[0]],
+                i,
+                len = arr.length, str = "";
+
+            if (arr.indexOf) {
+                /*jslint plusplus: true */
+                for (i = 0; i < len; i++) {
+                    if (r.indexOf(arr[i]) === -1) {
+                        r.push(arr[i]);
+                    }
+                }
+            } else {
+                arr = arr.sort();
+                /*jslint plusplus: true */
+                for (i = 1; i < len; i++) {
+                    if (arr[i] !== r[r.length - 1]) {
+                        r.push(arr[i]);
+                    }
+                }
+            }
+            
+             for (i = 0; i < r.length; i++) {
+                str += r[i].className + "\n";
+            }
+            alert(str);
+            
+            return r;
+        }
+
         //NO.4 节点过滤器
         function getEl(d) {
             var len = d.length;
@@ -131,8 +162,7 @@
                 }
                 m = r;
             } while (r !== null);
-            console.log(d);
-            return d;
+            return unique(d);
         }
 
         return {
@@ -159,7 +189,6 @@
 
     /*jshint forin: true */
     String.prototype.extend = function (n, o) {
-
         /*eslint guard-for-in: 1 */
         var i;
         for (i in o) {
@@ -168,9 +197,7 @@
             }
         }
     };
-
     "".extend(String.prototype, $());
-
 }());
 
 /*
