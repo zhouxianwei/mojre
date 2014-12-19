@@ -11,35 +11,28 @@
     */
     var $ = function () {
 
-        //数组去重函数
+        //数组去重函数(效率低)
+        //indexof方法 sort方法 ie不兼容对象数组排序
         function unique(arr) {
-            var r = arr.indexOf ? [] : [arr[0]],
+            var m = [],
+                f,
                 i,
-                len = arr.length, str = "";
-
-            if (arr.indexOf) {
+                j;
+            /*jslint plusplus: true */
+            for (i = 0; i < arr.length; i++) {
+                f = true;
                 /*jslint plusplus: true */
-                for (i = 0; i < len; i++) {
-                    if (r.indexOf(arr[i]) === -1) {
-                        r.push(arr[i]);
+                for (j = 0; j < m.length; j++) {
+                    if (arr[i] === m[j]) {
+                        f = false;
+                        break;
                     }
                 }
-            } else {
-                arr = arr.sort();
-                /*jslint plusplus: true */
-                for (i = 1; i < len; i++) {
-                    if (arr[i] !== r[r.length - 1]) {
-                        r.push(arr[i]);
-                    }
+                if (f) {
+                    m.push(arr[i]);
                 }
             }
-            
-             for (i = 0; i < r.length; i++) {
-                str += r[i].className + "\n";
-            }
-            alert(str);
-            
-            return r;
+            return m;
         }
 
         //NO.4 节点过滤器

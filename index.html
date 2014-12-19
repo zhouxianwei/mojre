@@ -9,8 +9,19 @@
         window.onload = function () {
             //"//div/input".getEle();
             var input = "//div//input".getItem();
-            alert(navigator.userAgent);
-            // console.log(input);
+            var d = document.getElementById("div");
+            var displayH = setInterval(function () {
+                var dh = parseInt(d.style.height);
+                if (--dh >= 0) {
+                    document.getElementById("test").value = dh;
+                    d.style.height = dh + "px";
+                } else {
+                    clearInterval(displayH);
+                }
+            }, 100);
+            
+
+
             //$("div input").each(function(){
             //			console.log(this);
             //		});
@@ -38,6 +49,8 @@
             </div>
         </div>
     </div>
+
+    <div id="div" style="width:100px; height:100px; border: 1px solid; overflow: hidden;"></div>
 </body>
 
 </html>
