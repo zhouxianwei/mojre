@@ -4,9 +4,6 @@
     /*模块化
         
         $ -- 底层元素模块
-        D -- 动态函数库
-        Dy -- 异步模块(Ajax, 异步执行)
-        
 
     */
     var $ = function () {
@@ -161,24 +158,14 @@
         return {
             getItem: function () {
                 return analyze(this);
+            },
+            hide: function () {
+                var o = this.getItem(),
+                    i;
             }
+
         };
     };
-    /*jslint white: true */
-    function D() {
-
-        return {
-
-        };
-
-    }
-
-    function Dy() {
-
-        return {
-
-        };
-    }
 
     /*jshint forin: true */
     String.prototype.extend = function (n, o) {
